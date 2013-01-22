@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+    <UsingTask TaskName="TransformXml" 
+               AssemblyFile="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v10.0\Web\Microsoft.Web.Publishing.Tasks.dll" />
+
+    <ItemDefinitionGroup>
+        <None>
+            <TransformedFileDestination>CONFIG</TransformedFileDestination>
+            <TransformOnBuild>false</TransformOnBuild>
+        </None>
+    </ItemDefinitionGroup>
+
+    <PropertyGroup>
+        <TransformConfigurationFilesDependsOn>
+            DiscoverFilesToTransform;
+        </TransformConfigurationFilesDependsOn>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <CopyTransformedConfigurationFilesDependsOn>
+            TransformConfigurationFiles;
+        </CopyTransformedConfigurationFilesDependsOn>
+    </PropertyGroup>
+
+    <Target Name="TransformConfigurationFiles" 
+            DependsOnTargets="$(TransformConfigurationFilesDependsOn)">
+
+        <TransformXml Source="@(FilesToTransForm->'%(FullPath)')"
+                      Transform="%(RelativeDir)%(Filename).$(Configuration)%(Extension)"
+                      Destination="@(FilesToTransForm->'$(ProjectDir)%(TransformedFileDestination)\%(FileName).tmp%(Extension)')"
+                      Condition=" Exists('%(RelativeDir)%(Filename).$(Configuration)%(Extension)') " />
+
+    </Target>
+
+    <Target Name="CopyTransformedConfigurationFiles" 
+            DependsOnTargets="$(CopyTransformedConfigurationFilesDependsOn)" 
+            AfterTargets="Build">
+        <Copy SourceFiles="@(FilesToTransForm->'$(ProjectDir)%(TransformedFileDestination)\%(FileName).tmp%(Extension)')"
+              DestinationFiles="@(FilesToTransForm->'$(ProjectDir)%(TransformedFileDestination)\%(FileName)%(Extension)')"
+              OverwriteReadOnlyFiles="true"
+              Condition=" Exists('%(RootDir)%(Directory)%(Filename)%(Extension)') " />
+
+        <Delete Files="@(FilesToTransForm->'$(ProjectDir)%(TransformedFileDestination)\%(FileName).tmp%(Extension)')"
+                Condition=" Exists('%(RootDir)%(Directory)%(Filename)%(Extension)') "
+                ContinueOnError="true" />
+
+    </Target>
+
+    <Target Name="DiscoverFilesToTransform">
+
+        <ItemGroup>
+            <FilesToTransForm Include="@(None)" 
+                              Condition=" '%(TransformOnBuild)' == 'true' " />
+        </ItemGroup>
+    </Target>
+    
+    
+</Project>
+
+
+
