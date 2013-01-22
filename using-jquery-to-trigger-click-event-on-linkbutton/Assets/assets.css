@@ -1,0 +1,8 @@
+﻿body {
+}
+
+tr.command:hover 
+{
+    background-color: Yellow;
+    cursor:pointer;
+}
