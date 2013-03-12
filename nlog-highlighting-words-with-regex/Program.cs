@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using NLog;
 using NLog.Config;
 using NLog.Targets;
@@ -7,14 +8,38 @@ namespace JL
 {
     class Program
     {
+        private static readonly Logger m_Logger;
+        private static readonly List<string> m_Tasks; 
+
+        static Program()
+        {
+            m_Logger = LogManager.GetCurrentClassLogger();
+            m_Tasks = new List<string>
+                      {
+                          "backup",
+                          "updating",
+                          "verifying",
+                          "finishing"
+                      };
+
+            ConfigureLogger();
+        }
+
         static void Main(string[] args)
         {
-            ConfigureLogger();
-            var logger = LogManager.GetCurrentClassLogger();
-
-            logger.Info(" - now running deployment task {0}/{1} with name='{2}'", 1, 10, "backup");
+            int i = 1;
+            foreach (var task in m_Tasks)
+            {
+                ExecuteTask(task, i, m_Tasks.Count);
+                i++;
+            }
 
             Console.Read();
+        }
+
+        private static void ExecuteTask(string task, int seed, int total)
+        {
+            m_Logger.Info(" - now running deployment task {0}/{1} with name='{2}'", seed, total, task);
         }
 
         static void ConfigureLogger()
