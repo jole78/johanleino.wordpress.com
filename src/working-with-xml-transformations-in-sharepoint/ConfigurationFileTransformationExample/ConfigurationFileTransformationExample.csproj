@@ -1,0 +1,150 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4D30CE20-E9CB-4630-8067-CEEEDAF32B0D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ConfigurationFileTransformationExample</RootNamespace>
+    <AssemblyName>ConfigurationFileTransformationExample</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{BB1F664B-9266-4fd6-B973-E1E44974B511};{14822709-B5A1-4724-98CA-57A101D1B079};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <SandboxedSolution>False</SandboxedSolution>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'TEST|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\TEST\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Debug\ConfigurationFileTransformationExample.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <LangVersion>3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Microsoft.SharePoint" />
+    <Reference Include="Microsoft.SharePoint.Security" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Extensions\FileInfoExtensions.cs" />
+    <Compile Include="Extensions\SPFeatureExtensions.cs" />
+    <Compile Include="Features\MyExample\MyExample.EventReceiver.cs">
+      <DependentUpon>MyExample.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Layouts\ConfigurationFileTransformationExample\TestSettings.aspx.cs">
+      <DependentUpon>TestSettings.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Layouts\ConfigurationFileTransformationExample\TestSettings.aspx.designer.cs">
+      <DependentUpon>TestSettings.aspx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Setting.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceLocators\SettingServiceLocator.cs" />
+    <Compile Include="Services\SPWebSettingService.cs" />
+    <Compile Include="Services\ISettingService.cs" />
+    <Compile Include="Services\MappedFolderSettingService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app1.config">
+      <TransformOnBuild>true</TransformOnBuild>
+      <TransformedFileDestination>CONFIG\MyExample</TransformedFileDestination>
+    </None>
+    <None Include="app1.TEST.config">
+      <DependentUpon>app1.config</DependentUpon>
+    </None>
+    <None Include="app2.config">
+      <TransformOnBuild>true</TransformOnBuild>
+      <TransformedFileDestination>ConfigurationFiles\app-config</TransformedFileDestination>
+    </None>
+    <None Include="app2.TEST.config">
+      <DependentUpon>app2.config</DependentUpon>
+    </None>
+    <None Include="ConfigurationFiles\app-config\app2.config" />
+    <None Include="ConfigurationFiles\app-config\SharePointProjectItem.spdata">
+      <SharePointProjectItemId>{3a80977c-a690-4d00-aed2-d54aac7f9400}</SharePointProjectItemId>
+    </None>
+    <None Include="ConfigurationTransformation.targets">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="CONFIG\SharePointProjectItem.spdata">
+      <SharePointProjectItemId>{ab255435-3b79-4acc-958b-e9b43091c3f7}</SharePointProjectItemId>
+    </None>
+    <None Include="CONFIG\MyExample\app1.config" />
+    <None Include="Features\MyExample\MyExample.feature">
+      <FeatureId>{b809cf7b-8068-4a20-971e-d9a31129cc94}</FeatureId>
+    </None>
+    <None Include="key.snk" />
+    <None Include="Layouts\SharePointProjectItem.spdata">
+      <SharePointProjectItemId>{76832500-34be-42c0-8aff-3715ee7d273b}</SharePointProjectItemId>
+    </None>
+    <None Include="Package\Package.package">
+      <PackageId>{7baf6e76-5943-4225-9b1d-b3631b070fd1}</PackageId>
+    </None>
+    <None Include="Package\Package.Template.xml">
+      <DependentUpon>Package.package</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Features\MyExample\MyExample.Template.xml">
+      <DependentUpon>MyExample.feature</DependentUpon>
+    </Content>
+    <Content Include="Layouts\ConfigurationFileTransformationExample\TestSettings.aspx">
+      <SubType>ASPXCodeBehind</SubType>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\SharePointTools\Microsoft.VisualStudio.SharePoint.targets" />
+  <Import Project="$(ProjectDir)\ConfigurationTransformation.targets" />
+</Project>

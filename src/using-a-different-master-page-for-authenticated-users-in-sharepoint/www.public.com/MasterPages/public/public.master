@@ -1,0 +1,116 @@
+﻿<%@ Master language="C#" %>
+
+<%@ Import Namespace="Microsoft.SharePoint" %>
+<%@ Register Tagprefix="asp" Namespace="System.Web.UI" Assembly="System.Web.Extensions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" %>
+<%@ Register Tagprefix="sp" Namespace="Microsoft.SharePoint.WebControls" Assembly="Microsoft.SharePoint, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %>
+<%@ Register Tagprefix="sp" Namespace="Microsoft.SharePoint.WebPartPages" Assembly="Microsoft.SharePoint, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %>
+
+<!DOCTYPE html>
+
+<html lang="<%$Resources:wss,language_value %>" dir="<%$Resources:wss,multipages_direction_dir_value %>" runat="server">
+
+<head runat="server">
+    
+    <meta charset="utf-8">
+
+    <%--SP: placeholder for the page title (this can overridden by page layouts) Default it shows the list item title--%>
+	<title runat="server"><asp:ContentPlaceHolder id="PlaceHolderPageTitle" runat="server"><sp:FieldValue FieldName="Title" runat="server" /></asp:ContentPlaceHolder></title>    
+
+    <%--SP:additional header placeholder - overridden by asp:content on pages or page layouts--%>
+	<asp:ContentPlaceHolder id="PlaceHolderAdditionalPageHead" runat="server"/>	
+	
+    <%--SP: additional header delegate control--%>
+	<sp:DelegateControl runat="server" ControlId="AdditionalPageHead" AllowMultipleControls="true"/>
+    
+    <%--SP:placeholders--%>
+   	<asp:ContentPlaceHolder id="PlaceHolderBodyAreaClass" runat ="server"/>
+	<asp:ContentPlaceHolder id="PlaceHolderTitleAreaClass" runat ="server"/>
+
+</head>
+
+<body onload="javascript:_spBodyOnLoadWrapper();">
+
+<form runat="server" onsubmit="return _spFormOnSubmitWrapper();">
+
+    <asp:ScriptManager id="ScriptManager" runat="server" EnablePageMethods="false" EnablePartialRendering="true" EnableScriptGlobalization="false" EnableScriptLocalization="true" />
+    <sp:SPWebPartManager runat="server"/>
+
+    <%--Used by private.master --%>
+    <asp:ContentPlaceHolder runat="server" ID="PlaceHolderBeforeMain" /> 
+	
+    <%--Here's where the end user content starts to render--%>
+    <asp:ContentPlaceHolder id="PlaceHolderMain" runat="server" />
+
+    <%--Used by private.master --%>
+    <asp:ContentPlaceHolder runat="server" ID="PlaceHolderAfterMain" />
+
+
+
+
+
+    <%--=====  Hidden Placeholders ============================================================--%>
+    <asp:Panel visible="false" runat="server">
+
+	    <asp:ContentPlaceHolder id="PlaceHolderPageTitleInTitleArea" runat="server" />
+        <asp:ContentPlaceHolder id="PlaceHolderPageDescription" runat="server" />			
+    
+	
+	    <!-- Usually shows the tree view but do not remove because of issue with changing views in the ribbon in publishing sites -->
+	    <sp:DelegateControl runat="server" ControlId="TreeViewAndDataSource"></sp:DelegateControl>
+	
+       <!-- =====  These placeholders don't output anything very often OOTB ========== -->
+	    <!-- The navigation menu that is inside the top navigation bar. -->
+	    <asp:ContentPlaceHolder id="PlaceHolderHorizontalNav" runat="server"/>
+	    <!-- The top navigation where GlobalNavigationSiteMap is contained. Gets overridden by default. V4 uses it to change the top nav -->
+	    <asp:ContentPlaceHolder id="PlaceHolderTopNavBar" runat="server"/>
+	    <!-- The top of the Quick Launch menu. -->
+	    <asp:ContentPlaceHolder id="PlaceHolderQuickLaunchTop" runat="server"/>
+	    <!-- The bottom of the Quick Launch menu. -->
+	    <asp:ContentPlaceHolder id="PlaceHolderQuickLaunchBottom" runat="server"/>
+	    <!-- The placement of the data source used to populate the left navigation bar. -->
+	    <asp:ContentPlaceHolder id="PlaceHolderLeftNavBarDataSource" runat="server" />
+	    <!-- The date picker used when a calendar is visible on the page. -->
+	    <asp:ContentPlaceHolder id="PlaceHolderCalendarNavigator" runat ="server" />
+	    <!-- The top section of the left navigation bar. -->
+	    <asp:ContentPlaceHolder id="PlaceHolderLeftNavBarTop" runat="server" />	
+	    <!-- used to override the global sitemap? -->
+	    <asp:ContentPlaceHolder id="PlaceHolderGlobalNavigationSiteMap" runat="server" />
+        <asp:ContentPlaceHolder id="PlaceHolderTitleBreadcrumb" runat="server" />
+	
+       <!-- =====  These placeholders does not appear as part of the 2010 UI but must be present for backward compatibility. ========== -->
+	    <!-- The name of the site where the current page resides. -->
+	    <asp:ContentPlaceHolder id="PlaceHolderSiteName" runat="server"/>	
+	    <!-- Page icon in the upper-left area of the page -->
+	    <asp:ContentPlaceHolder ID="PlaceHolderPageImage" runat="server"/>
+	    <!-- Left border of the title area -->
+	    <asp:ContentPlaceHolder ID="PlaceHolderTitleLeftBorder" runat="server"/>
+	    <!-- mini console - supplementary buttons for pages like the wiki / history / incoming links -->
+	    <asp:ContentPlaceHolder id="PlaceHolderMiniConsole" runat="server"/>
+	    <!-- Right margin of the title area -->
+	    <asp:ContentPlaceHolder id="PlaceHolderTitleRightMargin" runat="server"/>
+	    <!-- Left border of the title area -->
+	    <asp:ContentPlaceHolder ID="PlaceHolderTitleAreaSeparator" runat="server"/>	
+	    <!-- The width of the left navigation area -->
+	    <asp:ContentPlaceHolder ID="PlaceHolderNavSpacer" runat="server"/>
+	    <asp:ContentPlaceHolder id="PlaceHolderLeftNavBarBorder" runat="server"/>
+	    <!-- Border element for the main page body -->
+	    <asp:ContentPlaceHolder ID="PlaceHolderBodyLeftBorder" runat="server"/>
+	    <!-- Right margin of the main page body -->
+	    <asp:ContentPlaceHolder id="PlaceHolderBodyRightMargin" runat="server" />
+	
+    </asp:Panel>
+
+    <%--The form digest security control used to for security validation on forms--%>
+     <asp:ContentPlaceHolder id="PlaceHolderFormDigest" runat="server">
+	    <sp:FormDigest runat="server"/>
+    </asp:ContentPlaceHolder>
+
+
+</form>
+
+<asp:ContentPlaceHolder id="PlaceHolderUtilityContent" runat="server" />
+
+
+
+</body>
+</html>
