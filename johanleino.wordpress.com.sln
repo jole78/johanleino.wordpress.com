@@ -10,6 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{8412A6
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "expando-object-properties", "src\expando-object-properties\expando-object-properties.csproj", "{22277AB1-DE34-42A9-A589-BB92DA957A62}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,6 +22,10 @@ Global
 		{448CCD30-C24A-4213-8A23-4B64D31F6AF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{448CCD30-C24A-4213-8A23-4B64D31F6AF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{448CCD30-C24A-4213-8A23-4B64D31F6AF7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22277AB1-DE34-42A9-A589-BB92DA957A62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22277AB1-DE34-42A9-A589-BB92DA957A62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22277AB1-DE34-42A9-A589-BB92DA957A62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22277AB1-DE34-42A9-A589-BB92DA957A62}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
